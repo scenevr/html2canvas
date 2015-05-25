@@ -56,21 +56,25 @@ function initNode(node) {
     }
 }
 
+var container = null;
+
 module.exports = function(ownerDocument, containerDocument, width, height, options, x ,y) {
     var documentElement = cloneNode(ownerDocument.documentElement, options.javascriptEnabled);
-    var container = containerDocument.createElement("iframe");
 
-    container.className = "html2canvas-container";
-    container.style.visibility = "hidden";
-    container.style.position = "fixed";
-    container.style.left = "-10000px";
-    container.style.top = "0px";
-    container.style.border = "0";
-    container.width = width;
-    container.height = height;
-    container.scrolling = "no"; // ios won't scroll without it
-    containerDocument.body.appendChild(container);
-
+    if (!container) {
+        container = containerDocument.createElement("iframe");
+        container.className = "html2canvas-container";
+        container.style.visibility = "hidden";
+        container.style.position = "fixed";
+        container.style.left = "-10000px";
+        container.style.top = "0px";
+        container.style.border = "0";
+        container.width = width;
+        container.height = height;
+        container.scrolling = "no"; // ios won't scroll without it
+        containerDocument.body.appendChild(container);
+    }
+    
     return new Promise(function(resolve) {
         var documentClone = container.contentWindow.document;
 
